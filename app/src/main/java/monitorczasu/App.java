@@ -3,12 +3,18 @@
  */
 package monitorczasu;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import java.util.Scanner;
 
+public class App {
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        Scanner scanner = new Scanner(System.in);
+
+        String wybor;
+
+        do{
+            System.out.println("1.Rozpocznij nowa sesje\n2.Zakoncz sesje\n3.Pokaz hostorie sesji\n4.Wyjdz");
+            wybor = scanner.next();
+        }while(!wybor.equals("4"));
+
     }
 }
