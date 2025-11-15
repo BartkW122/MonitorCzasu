@@ -3,8 +3,13 @@
  */
 package monitorczasu;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -18,12 +23,14 @@ public class App {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         
+        File plik = new File("app/src/main/resources/sesje.txt");
         String wybor;
         String wynikProgramu;
         boolean stanSesji= false;
         LocalDateTime czasStartuSesji = null;
         LocalDateTime czasZatrzymaniaSesji;
         DateTimeFormatter fromatDaty = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
 
         do{
             
@@ -59,6 +66,10 @@ public class App {
                 zapiszWynikuDoPliku(wynikProgramu);
             }
 
+            if(wybor.equals("3")){
+                odczytanieWynikowZPilku(plik);
+            }
+
         }while(!wybor.equals("4"));
 
     }
@@ -82,6 +93,21 @@ public class App {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void odczytanieWynikowZPilku(File plik){
         
+        try (Scanner plikScanner = new Scanner(plik)) {
+            while (plikScanner.hasNextLine()) {
+                String data = plikScanner.nextLine();
+                System.out.println(data);
+            }
+        } catch (FileNotFoundException e) {
+                    System.out.println("Blad!!");
+                    e.printStackTrace();
+        }finally{
+            System.out.println("operacja udana!!");
+        }
+            
     }
 }
