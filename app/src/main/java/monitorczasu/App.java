@@ -3,6 +3,10 @@
  */
 package monitorczasu;
 
+import java.sql.Date;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class App {
@@ -13,6 +17,8 @@ public class App {
         
         String wybor;
         boolean stanSesji= false;
+        LocalDateTime czasStartuSesji = null;
+        LocalDateTime czasZatrzymaniaSesji;
 
         do{
             
@@ -29,6 +35,7 @@ public class App {
 
             if(wybor.equals("1") && stanSesji == false){
                 stanSesji = true;
+                czasStartuSesji = LocalDateTime.now();
             }
             
             try{
@@ -38,9 +45,12 @@ public class App {
             }catch(IllegalStateException e){
                 System.out.println("sesja nie zostala wystartowana!!");
             }
-            
+
             if(wybor.equals("2") && stanSesji == true){
                 stanSesji = false;
+                czasZatrzymaniaSesji = LocalDateTime.now();
+                
+                System.out.println(obliczenieCzasuTrwaniaSesji(czasStartuSesji, czasZatrzymaniaSesji));
             }
 
         }while(!wybor.equals("4"));
@@ -53,5 +63,9 @@ public class App {
         }else{
             return false;
         }
+    }
+
+    public static long obliczenieCzasuTrwaniaSesji(LocalDateTime start,LocalDateTime stop){
+        return Duration.between(start, stop).toMinutes();
     }
 }
