@@ -6,15 +6,40 @@ package monitorczasu;
 import java.util.Scanner;
 
 public class App {
+    
+    
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
+        
         String wybor;
+        boolean stanSesji= false;
 
         do{
-            System.out.println("1.Rozpocznij nowa sesje\n2.Zakoncz sesje\n3.Pokaz hostorie sesji\n4.Wyjdz");
+            
+            System.out.println("1.Rozpocznij nowa sesje\n2.Zakoncz sesje\n3.Pokaz hostorie sesji\n4.Wyjdz\n");
             wybor = scanner.next();
+
+            if(wybor.equals("1") && stanSesji == true){
+                System.out.println("sesja juz istnieje!!");
+            }
+
+            if(wybor.equals("1") && stanSesji == false){
+                stanSesji = true;
+            }
+            
+            if(wybor.equals("2")){
+                stanSesji = false;
+            }
+
         }while(!wybor.equals("4"));
 
+    }
+
+    public static boolean sprawdzenieSesji(String a){
+        if(!a.equals("")){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
