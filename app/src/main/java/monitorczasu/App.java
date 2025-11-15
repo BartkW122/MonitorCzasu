@@ -3,10 +3,13 @@
  */
 package monitorczasu;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Date;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class App {
@@ -16,9 +19,11 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         
         String wybor;
+        String wynikProgramu;
         boolean stanSesji= false;
         LocalDateTime czasStartuSesji = null;
         LocalDateTime czasZatrzymaniaSesji;
+        DateTimeFormatter fromatDaty = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         do{
             
@@ -30,7 +35,7 @@ public class App {
                     throw new IllegalStateException("sesja juz istnieje!!");
                 }
             }catch(IllegalStateException e){
-                System.out.println("sesja juz istnieje!!");
+                e.printStackTrace();
             }
 
             if(wybor.equals("1") && stanSesji == false){
@@ -43,14 +48,15 @@ public class App {
                     throw new IllegalStateException("sesja nie zostala wystartowana!!");
                 }
             }catch(IllegalStateException e){
-                System.out.println("sesja nie zostala wystartowana!!");
+                e.printStackTrace();
             }
 
             if(wybor.equals("2") && stanSesji == true){
                 stanSesji = false;
                 czasZatrzymaniaSesji = LocalDateTime.now();
                 
-                System.out.println(obliczenieCzasuTrwaniaSesji(czasStartuSesji, czasZatrzymaniaSesji));
+                wynikProgramu = "["+fromatDaty.format(czasStartuSesji)+"] "+" Sesja trwała: "+obliczenieCzasuTrwaniaSesji(czasStartuSesji, czasZatrzymaniaSesji)+" minut\n";
+                zapiszWynikuDoPliku(wynikProgramu);
             }
 
         }while(!wybor.equals("4"));
@@ -67,5 +73,15 @@ public class App {
 
     public static long obliczenieCzasuTrwaniaSesji(LocalDateTime start,LocalDateTime stop){
         return Duration.between(start, stop).toMinutes();
+    }
+
+    public static void zapiszWynikuDoPliku(String n){
+        try(FileWriter writer = new FileWriter("app/src/main/resources/sesje.txt", true)) {
+          writer.write(n);
+          throw new IOException("zapisano wynik do pliku sesje.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
     }
 }
