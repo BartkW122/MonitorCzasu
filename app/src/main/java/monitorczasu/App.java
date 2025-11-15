@@ -21,9 +21,9 @@ public class App {
 
             try{
                 if(wybor.equals("1") && stanSesji == true){
-                    throw new IllegalArgumentException("sesja juz istnieje!!");
+                    throw new IllegalStateException("sesja juz istnieje!!");
                 }
-            }catch(IllegalArgumentException e){
+            }catch(IllegalStateException e){
                 System.out.println("sesja juz istnieje!!");
             }
 
@@ -31,7 +31,15 @@ public class App {
                 stanSesji = true;
             }
             
-            if(wybor.equals("2")){
+            try{
+                if(wybor.equals("2") && stanSesji == false){
+                    throw new IllegalStateException("sesja nie zostala wystartowana!!");
+                }
+            }catch(IllegalStateException e){
+                System.out.println("sesja nie zostala wystartowana!!");
+            }
+            
+            if(wybor.equals("2") && stanSesji == true){
                 stanSesji = false;
             }
 
