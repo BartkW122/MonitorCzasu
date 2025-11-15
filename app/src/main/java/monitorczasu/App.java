@@ -19,7 +19,11 @@ public class App {
             System.out.println("1.Rozpocznij nowa sesje\n2.Zakoncz sesje\n3.Pokaz hostorie sesji\n4.Wyjdz\n");
             wybor = scanner.next();
 
-            if(wybor.equals("1") && stanSesji == true){
+            try{
+                if(wybor.equals("1") && stanSesji == true){
+                    throw new IllegalArgumentException("sesja juz istnieje!!");
+                }
+            }catch(IllegalArgumentException e){
                 System.out.println("sesja juz istnieje!!");
             }
 
