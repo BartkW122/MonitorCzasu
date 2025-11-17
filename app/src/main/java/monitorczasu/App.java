@@ -89,9 +89,10 @@ public class App {
     public static void zapiszWynikuDoPliku(String n){
         try(FileWriter writer = new FileWriter("app/src/main/resources/sesje.txt", true)) {
           writer.write(n);
-          throw new IOException("zapisano wynik do pliku sesje.txt");
         } catch (IOException e) {
             e.printStackTrace();
+        }finally{
+            System.out.println("zapisano wynik do pliku sesje.txt");
         }
     }
 
