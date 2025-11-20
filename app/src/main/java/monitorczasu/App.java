@@ -67,7 +67,15 @@ public class App {
             }
 
             if(wybor.equals("3")){
-                odczytanieWynikowZPilku(plik);
+                try{
+                    if(sprawdzenieCzyPlikInstnieje(plik) == true){
+                        odczytanieWynikowZPilku(plik);
+                    }else{
+                        throw new IOException("Stworzono nowy plik sesje.txt mozliwy do odczytania!");
+                    }
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
             }
 
         }while(!wybor.equals("4"));
@@ -97,7 +105,6 @@ public class App {
     }
 
     public static void odczytanieWynikowZPilku(File plik){
-        
         try (Scanner plikScanner = new Scanner(plik)) {
             while (plikScanner.hasNextLine()) {
                 String data = plikScanner.nextLine();
@@ -110,5 +117,23 @@ public class App {
             System.out.println("operacja udana!!");
         }
             
+    }
+
+    public static boolean sprawdzenieCzyPlikInstnieje(File file){
+        if(file.exists()){
+            return true;
+        }else{
+            
+            try{
+                file = new File("app/src/main/resources/sesje.txt");
+                if(file.createNewFile()){
+                    
+                }
+
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+            return false;
+        }
     }
 }
